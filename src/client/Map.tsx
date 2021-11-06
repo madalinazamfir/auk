@@ -9,7 +9,8 @@ const Map = () => {
     useLayoutEffect(() => {
         new mapboxgl.Map({
             container: 'mainmap',
-            style: 'mapbox://styles/mapbox/light-v10'
+            style: 'mapbox://styles/mapbox/light-v10',
+            maxBounds: new mapboxgl.LngLatBounds([0, 66.5], [180, 90])
         });
     });
 
