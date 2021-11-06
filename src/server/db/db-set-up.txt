@@ -1,0 +1,2 @@
+db.createCollection('greatauk', {})
+db.bearalerts.createIndex( { "longitude": 1, "latitude": 1 }, { unique: true } )
