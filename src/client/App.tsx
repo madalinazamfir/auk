@@ -1,7 +1,8 @@
 import React from 'react';
+import Map from './Map';
 
 const App = (props: AppProps) => {
-    return <h1>Hello from client</h1>
+    return <div class="app"><Map /></div>
 };
 
 interface AppProps {}
