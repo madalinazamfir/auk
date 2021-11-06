@@ -1,5 +1,47 @@
 $theme-colors: (
-    'primary': #0091ea //Covalence Blue!  :D
+'primary': #0091ea //Covalence Blue!  :D
 );
 
-@import '../../../node_modules/bootstrap/scss/bootstrap.scss';
+#root {
+    height: 100vh;
+}
+
+.app {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+#mainmap {
+    flex-grow: 1;
+    display: block;
+}
+
+.report-popup .mapboxgl-popup-content {
+    padding: 20px;
+    width: 200px;
+}
+
+.report-marker {
+    background-color: #77C1FF;
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.report-marker.bear-sighting {
+    background-color: #FFE33E;
+}
+
+.report-marker.bear-attack {
+    background-color: #FF5A80;
+}
+
+
+
+@import '../../../node_modules/antd/dist/antd.css';
+
+body {
+    background-color: #CAD2D3;
+}
