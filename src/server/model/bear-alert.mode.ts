@@ -4,7 +4,8 @@ import {Schema} from "mongoose";
 const bearAlertSchema = new Schema({
     latitude: Number,
     longitude: Number,
-    contact: String
+    contact: String,
+    type: String
 })
 
 export const BearAlertModel = mongoose.model("BearAlert", bearAlertSchema)
@@ -14,4 +15,5 @@ export class BearAlert {
     latitude: number;
     longitude: number;
     contact: string;
+    type: string
 }

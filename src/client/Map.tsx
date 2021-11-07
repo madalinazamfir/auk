@@ -1,26 +1,17 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js';
 import AddReportModal from './AddReportModal';
+import useApi, {REPORT_TYPES} from './useApi';
+
+import {createMarker, createAlertMarker} from './map-helpers';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoiZWR1YXJkbmVjIiwiYSI6ImNrdm50dzdyNDBvOGEyc2pwM3BhMTRqa3gifQ.Db0m4qF78rBUL3vEIOMHCg';
-
-const createMarker = () => {
-    const el = document.createElement('div');
-    el.className = 'report-marker bear-sighting';
-
-    const marker = new mapboxgl.Marker(el);
-
-    el.onclick = (e) => {
-        e.stopPropagation();
-        marker.togglePopup();
-    }
-
-    return marker;
-}
 
 const Map = () => {
     const [addedMarker, setAddedMarker] = useState(null);
     const [isAddAlertModalVisible, setIsAddAlertModalVisible] = useState(false);
+    const [mapInstance, setMapInstance] = useState(null);
+    const {loadData} = useApi();
 
     // handler for click event in map
     const onMapClick = (event, map) => {
@@ -59,8 +50,28 @@ const Map = () => {
         );
 
         map.on('click', (e) => onMapClick(e, map));
+
+        setMapInstance(map);
     }, []);
 
+    // await bearAlerts to load and add returned markers to map
+    useEffect(() => {
+        if (!mapInstance) {
+            return;
+        }
+
+        const loadMarkers = async () => {
+            const bearAlerts = await loadData();
+
+            // add markers
+            bearAlerts.forEach((bearAlert) => {
+                const marker = createAlertMarker(bearAlert);
+                marker.addTo(mapInstance);
+            });
+        };
+
+        loadMarkers();
+    }, [mapInstance]);
 
     return (
         <>

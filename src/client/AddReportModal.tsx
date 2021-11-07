@@ -1,6 +1,7 @@
 import React, { useLayoutEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js';
 import {Modal, Input, Select} from 'antd';
+import useApi from './useApi';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -16,9 +17,10 @@ const AddReportModal = ({isVisible, marker, onCancel, onAdded}) => {
         reportDescription: ''
     });
     const [isCreatingReport, setIsCreatingReport] = useState(false);
+    const {saveBearAlert} = useApi();
 
     // handler for alert added
-    const onAddAlert = () => {
+    const onAddAlert = async () => {
         setIsCreatingReport(true);
 
         // set the popup text
@@ -30,18 +32,23 @@ const AddReportModal = ({isVisible, marker, onCancel, onAdded}) => {
         );
         marker.setPopup(popup);
 
-        // TODO: switch this to an api call
-        setTimeout(() => {
-            setIsCreatingReport(false);
+        const longLat = marker.getLngLat();
 
-            onAdded();
+        await saveBearAlert({
+            contact: reportInfo.reportDescription,
+            type: reportInfo.reportType,
+            latitude: longLat.lat,
+            longitude: longLat.lng
+        });
 
-            // reset modal form data
-            setReportInfo({
-                reportType: REPORT_TYPES.BEAR,
-                reportDescription: ''
-            });
-        }, 500);
+        setIsCreatingReport(false);
+        onAdded();
+
+        // reset modal form data
+        setReportInfo({
+            reportType: REPORT_TYPES.BEAR,
+            reportDescription: ''
+        });
     }
 
     // handler for cancel add alert
@@ -72,13 +79,13 @@ const AddReportModal = ({isVisible, marker, onCancel, onAdded}) => {
 
     return (
         <Modal
-        closable={false}
-        title="Add new report"
-        visible={isVisible}
-        confirmLoading={isCreatingReport}
-        okText="Add"
-        onOk={onAddAlert}
-        onCancel={onCancelAddAlert}
+            closable={false}
+            title="Add new report"
+            visible={isVisible}
+            confirmLoading={isCreatingReport}
+            okText="Add"
+            onOk={onAddAlert}
+            onCancel={onCancelAddAlert}
         >
             <Select onSelect={onSelectChange} value={reportInfo.reportType} style={{marginBottom: 15}}>
                 <Option value={REPORT_TYPES.BEAR}>Bear sighting</Option>
