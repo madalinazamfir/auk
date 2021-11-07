@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js';
 import AddReportModal from './AddReportModal';
-import useApi, {REPORT_TYPES} from './useApi';
+import useApi from './useApi';
 
 import {createMarker, createAlertMarker} from './map-helpers';
 

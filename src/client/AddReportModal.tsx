@@ -1,15 +1,10 @@
 import React, { useLayoutEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js';
 import {Modal, Input, Select, message} from 'antd';
-import useApi from './useApi';
+import useApi, {REPORT_TYPES} from './useApi';
 
 const { Option } = Select;
 const { TextArea } = Input;
-
-const REPORT_TYPES = {
-    BEAR: 'BEAR',
-    ATTACK: 'ATTACK',
-};
 
 const AddReportModal = ({isVisible, marker, onCancel, onAdded}) => {
     const [reportInfo, setReportInfo] = useState({
