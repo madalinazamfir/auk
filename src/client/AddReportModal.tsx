@@ -1,6 +1,6 @@
 import React, { useLayoutEffect, useState } from 'react';
 import mapboxgl from 'mapbox-gl/dist/mapbox-gl.js';
-import {Modal, Input, Select} from 'antd';
+import {Modal, Input, Select, message} from 'antd';
 import useApi from './useApi';
 
 const { Option } = Select;
@@ -43,6 +43,8 @@ const AddReportModal = ({isVisible, marker, onCancel, onAdded}) => {
 
         setIsCreatingReport(false);
         onAdded();
+
+        message.success('Alert added');
 
         // reset modal form data
         setReportInfo({
